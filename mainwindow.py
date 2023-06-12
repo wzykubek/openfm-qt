@@ -4,6 +4,7 @@ import sys
 from PySide6.QtCore import QUrl
 from PySide6.QtWidgets import QApplication, QMainWindow
 from PySide6.QtMultimedia import QMediaPlayer, QAudioOutput
+from PySide6.QtGui import QIcon
 
 # Important:
 # You need to run the following command to generate the ui_form.py file
@@ -29,6 +30,7 @@ class MainWindow(QMainWindow):
         self.getGroups()
         self.ui.groupslistWidget.itemClicked.connect(self.getStations)
         self.ui.stationslistWidget.itemClicked.connect(self.playRadio)
+        self.ui.toolButton.clicked.connect(self.togglePlayer)
 
     def getGroups(self):
         for el in self.stations_slug["groups"]:
@@ -54,7 +56,17 @@ class MainWindow(QMainWindow):
                 stream_url = f"http://stream.open.fm/{ch['id']}"
 
         self.__player.setSource(QUrl(stream_url))
-        self.__player.play()
+        self.ui.toolButton.setIcon(QIcon.fromTheme("media-playback-start"))
+
+    def togglePlayer(self):
+        if self.__player.playbackState() == QMediaPlayer.PlaybackState.PlayingState:
+            self.__player.stop()
+            self.ui.toolButton.setIcon(QIcon.fromTheme("media-playback-start"))
+        elif self.__player.playbackState() == QMediaPlayer.PlaybackState.StoppedState:
+            self.__player.play()
+            self.ui.toolButton.setIcon(QIcon.fromTheme("media-playback-stop"))
+        else:
+            pass
 
 
 if __name__ == "__main__":

@@ -90,6 +90,9 @@
          <property name="text">
           <string>...</string>
          </property>
+         <property name="icon">
+          <iconset theme="media-playback-start"/>
+         </property>
         </widget>
        </item>
        <item>
