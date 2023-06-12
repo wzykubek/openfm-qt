@@ -17,13 +17,13 @@ class MainWindow(QMainWindow):
         super().__init__(parent)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.getStations()
+        self.getGroups()
 
-    def getStations(self):
+    def getGroups(self):
         resp = requests.get("https://open.fm/radio/api/v2/ofm/stations_slug.json")
         json_ = json.loads(resp.text)
         for el in json_["groups"]:
-            self.ui.listWidget.addItem(el["name"])
+            self.ui.groupslistWidget.addItem(el["name"])
 
 
 if __name__ == "__main__":
