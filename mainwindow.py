@@ -1,7 +1,9 @@
 # This Python file uses the following encoding: utf-8
 import sys
 
+from PySide6.QtCore import QUrl
 from PySide6.QtWidgets import QApplication, QMainWindow
+from PySide6.QtMultimedia import QMediaPlayer, QAudioOutput
 
 # Important:
 # You need to run the following command to generate the ui_form.py file
@@ -20,8 +22,13 @@ class MainWindow(QMainWindow):
         self.stations_slug = json.loads(requests.get(
             "https://open.fm/radio/api/v2/ofm/stations_slug.json"
         ).text)
+        self.__player = QMediaPlayer()
+        self.__audio = QAudioOutput()
+        self.__player.setAudioOutput(self.__audio)
+        self.__audio.setVolume(self.ui.horizontalSlider_2.value())
         self.getGroups()
         self.ui.groupslistWidget.itemClicked.connect(self.getStations)
+        self.ui.stationslistWidget.itemClicked.connect(self.playRadio)
 
     def getGroups(self):
         for el in self.stations_slug["groups"]:
@@ -38,6 +45,16 @@ class MainWindow(QMainWindow):
         for ch in self.stations_slug["channels"]:
             if ch["group_id"] == group_id:
                 self.ui.stationslistWidget.addItem(ch["name"])
+
+    def playRadio(self):
+        station = self.ui.stationslistWidget.selectedItems()[0].text()
+        stream_url = None
+        for ch in self.stations_slug["channels"]:
+            if ch["name"] == station:
+                stream_url = f"http://stream.open.fm/{ch['id']}"
+
+        self.__player.setSource(QUrl(stream_url))
+        self.__player.play()
 
 
 if __name__ == "__main__":
