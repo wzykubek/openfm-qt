@@ -84,6 +84,7 @@ class MainWindow(QMainWindow):
 
         self.__player.setSource(QUrl(stream_url))
         self.ui.toolButton.setIcon(QIcon.fromTheme("media-playback-start"))
+        self.togglePlayer()
 
     def togglePlayer(self):
         if self.__player.playbackState() == QMediaPlayer.PlaybackState.PlayingState:
