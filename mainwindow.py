@@ -2,9 +2,8 @@
 import sys
 
 from PySide6.QtCore import QUrl
-from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox
+from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox, QStyle
 from PySide6.QtMultimedia import QMediaPlayer, QAudioOutput
-from PySide6.QtGui import QIcon
 
 # Important:
 # You need to run the following command to generate the ui_form.py file
@@ -26,12 +25,18 @@ class MainWindow(QMainWindow):
         super().__init__(parent)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        volume_icon = self.style().standardIcon(QStyle.SP_MediaVolume)
+        playback_icon = self.style().standardIcon(QStyle.SP_MediaPlay)
+        self.ui.volumeToolButton.setIcon(volume_icon)
+        self.ui.playbackToolButton.setIcon(playback_icon)
+
         self.__stations_data = self.getStationsData()
         self.__player = QMediaPlayer()
         self.__audio = QAudioOutput()
         self.__player.setAudioOutput(self.__audio)
         self.setVolume(DEFAULT_VOLUME)
         self.printGroups()
+
         self.ui.groupsListWidget.itemClicked.connect(self.printStations)
         self.ui.stationsListWidget.itemClicked.connect(self.playRadio)
         self.ui.playbackToolButton.clicked.connect(self.togglePlayer)
@@ -85,16 +90,14 @@ class MainWindow(QMainWindow):
         """Toggle playback volume between 0 and DEFAULT_VOLUME."""
         if self.ui.volumeHorizontalSlider.value() == 0:
             self.ui.volumeHorizontalSlider.setValue(DEFAULT_VOLUME)
-            self.ui.volumeToolButton.setIcon(
-                QIcon.fromTheme("audio-volume-medium")
-            )
+            icon = self.style().standardIcon(QStyle.SP_MediaVolume)
             self.setVolume(DEFAULT_VOLUME)
         else:
             self.ui.volumeHorizontalSlider.setValue(0)
-            self.ui.volumeToolButton.setIcon(
-                QIcon.fromTheme("audio-volume-muted")
-            )
+            icon = self.style().standardIcon(QStyle.SP_MediaVolumeMuted)
             self.setVolume(0)
+
+        self.ui.volumeToolButton.setIcon(icon)
 
     def playRadio(self) -> None:
         """Play station selected by user."""
@@ -105,9 +108,6 @@ class MainWindow(QMainWindow):
                 stream_url = f"http://stream.open.fm/{e['id']}"
 
         self.__player.setSource(QUrl(stream_url))
-        self.ui.playbackToolButton.setIcon(
-            QIcon.fromTheme("media-playback-start")
-        )
         self.togglePlayer()
 
     def togglePlayer(self) -> None:
@@ -115,16 +115,14 @@ class MainWindow(QMainWindow):
         pb_state = QMediaPlayer.PlaybackState
         if self.__player.playbackState() == pb_state.PlayingState:
             self.__player.stop()
-            self.ui.playbackToolButton.setIcon(
-                QIcon.fromTheme("media-playback-start")
-            )
+            icon = self.style().standardIcon(QStyle.SP_MediaPlay)
         elif self.__player.playbackState() == pb_state.StoppedState:
             self.__player.play()
-            self.ui.playbackToolButton.setIcon(
-                QIcon.fromTheme("media-playback-stop")
-            )
+            icon = self.style().standardIcon(QStyle.SP_MediaStop)
         else:
             pass
+
+        self.ui.playbackToolButton.setIcon(icon)
 
 
 if __name__ == "__main__":

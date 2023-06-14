@@ -79,10 +79,6 @@
          <property name="text">
           <string>...</string>
          </property>
-         <property name="icon">
-          <iconset theme="media-playback-start">
-           <normaloff>.</normaloff>.</iconset>
-         </property>
         </widget>
        </item>
        <item>
@@ -115,10 +111,6 @@
         <widget class="QToolButton" name="volumeToolButton">
          <property name="text">
           <string>...</string>
-         </property>
-         <property name="icon">
-          <iconset theme="audio-volume-medium">
-           <normaloff>.</normaloff>.</iconset>
          </property>
         </widget>
        </item>
