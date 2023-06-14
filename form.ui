@@ -107,7 +107,7 @@
         </widget>
        </item>
        <item alignment="Qt::AlignRight">
-        <widget class="QSlider" name="horizontalSlider_2">
+        <widget class="QSlider" name="volumeHorizontalSlider">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -128,7 +128,8 @@
           <string>...</string>
          </property>
          <property name="icon">
-          <iconset theme="audio-volume-medium"/>
+          <iconset theme="audio-volume-medium">
+           <normaloff>.</normaloff>.</iconset>
          </property>
         </widget>
        </item>

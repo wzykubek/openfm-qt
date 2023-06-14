@@ -24,11 +24,13 @@ class MainWindow(QMainWindow):
         self.__player = QMediaPlayer()
         self.__audio = QAudioOutput()
         self.__player.setAudioOutput(self.__audio)
-        self.__audio.setVolume(self.ui.horizontalSlider_2.value())
+        self.setVolume()
         self.getGroups()
         self.ui.groupslistWidget.itemClicked.connect(self.getStations)
         self.ui.stationslistWidget.itemClicked.connect(self.playRadio)
         self.ui.toolButton.clicked.connect(self.togglePlayer)
+        self.ui.volumeHorizontalSlider.valueChanged.connect(self.setVolume)
+        self.ui.volumeToolButton.clicked.connect(self.toggleMute)
 
     def getGroups(self):
         for el in self.stations_slug["groups"]:
@@ -57,6 +59,21 @@ class MainWindow(QMainWindow):
             error_box.exec()
         else:
             return json.loads(resp.text)
+
+    def setVolume(self, volume: int = None):
+        if volume is None:
+            volume = self.ui.volumeHorizontalSlider.value()
+        self.__audio.setVolume(volume / 100)
+
+    def toggleMute(self):
+        if self.ui.volumeHorizontalSlider.value() == 0:
+            self.ui.volumeHorizontalSlider.setValue(70)
+            self.ui.volumeToolButton.setIcon(QIcon.fromTheme("audio-volume-medium"))
+            self.setVolume(70)
+        else:
+            self.ui.volumeHorizontalSlider.setValue(0)
+            self.ui.volumeToolButton.setIcon(QIcon.fromTheme("audio-volume-muted"))
+            self.setVolume(0)
 
     def playRadio(self):
         station = self.ui.stationslistWidget.selectedItems()[0].text()
