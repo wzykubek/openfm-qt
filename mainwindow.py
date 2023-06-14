@@ -2,7 +2,7 @@
 import sys
 
 from PySide6.QtCore import QUrl
-from PySide6.QtWidgets import QApplication, QMainWindow
+from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox
 from PySide6.QtMultimedia import QMediaPlayer, QAudioOutput
 from PySide6.QtGui import QIcon
 
@@ -20,9 +20,7 @@ class MainWindow(QMainWindow):
         super().__init__(parent)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.stations_slug = json.loads(requests.get(
-            "https://open.fm/radio/api/v2/ofm/stations_slug.json"
-        ).text)
+        self.stations_slug = self.getData()
         self.__player = QMediaPlayer()
         self.__audio = QAudioOutput()
         self.__player.setAudioOutput(self.__audio)
@@ -47,6 +45,18 @@ class MainWindow(QMainWindow):
         for ch in self.stations_slug["channels"]:
             if ch["group_id"] == group_id:
                 self.ui.stationslistWidget.addItem(ch["name"])
+
+    def getData(self) -> dict:
+        resp = requests.get("https://open.fm/radio/api/v2/ofm/stations_slug.json")
+        if resp.status_code not in range(200, 299 + 1):
+            error_box = QMessageBox.critical(
+                self, "Błąd",
+                f"Błąd połączenia o kodzie: {resp.status_code}",
+                QMessageBox.Cancel
+            )
+            error_box.exec()
+        else:
+            return json.loads(resp.text)
 
     def playRadio(self):
         station = self.ui.stationslistWidget.selectedItems()[0].text()
