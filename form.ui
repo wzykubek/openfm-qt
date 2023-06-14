@@ -31,6 +31,13 @@
   <property name="windowTitle">
    <string>Open FM</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>logo.png</normaloff>logo.png</iconset>
+  </property>
+  <property name="locale">
+   <locale language="Polish" country="Poland"/>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
@@ -45,7 +52,7 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <widget class="QListWidget" name="groupslistWidget">
+        <widget class="QListWidget" name="groupsListWidget">
          <property name="minimumSize">
           <size>
            <width>130</width>
@@ -61,14 +68,14 @@
         </widget>
        </item>
        <item>
-        <widget class="QListWidget" name="stationslistWidget"/>
+        <widget class="QListWidget" name="stationsListWidget"/>
        </item>
       </layout>
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
-        <widget class="QToolButton" name="toolButton">
+        <widget class="QToolButton" name="playbackToolButton">
          <property name="text">
           <string>...</string>
          </property>
