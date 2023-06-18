@@ -24,8 +24,10 @@ class MainWindow(QMainWindow):
         self.ui.setupUi(self)
         volume_icon = self.style().standardIcon(QStyle.SP_MediaVolume)
         playback_icon = self.style().standardIcon(QStyle.SP_MediaPlay)
+        stop_icon = self.style().standardIcon(QStyle.SP_MediaStop)
         self.ui.volumeToolButton.setIcon(volume_icon)
         self.ui.playbackToolButton.setIcon(playback_icon)
+        self.ui.stopToolButton.setIcon(stop_icon)
 
         self.__stations = self.getData(
             "https://open.fm/radio/api/v2/ofm/stations_slug.json"
@@ -45,6 +47,7 @@ class MainWindow(QMainWindow):
         self.ui.podcastListWidget.itemClicked.connect(self.printPodcastEpisodes)
         self.ui.stationsListWidget.itemClicked.connect(self.playRadio)
         self.ui.playbackToolButton.clicked.connect(self.togglePlayer)
+        self.ui.stopToolButton.clicked.connect(self.stopPlayer)
         self.ui.volumeHorizontalSlider.valueChanged.connect(self.setVolume)
         self.ui.volumeToolButton.clicked.connect(self.toggleMute)
 
@@ -159,23 +162,37 @@ class MainWindow(QMainWindow):
                     stream_url = e["file"].replace("https", "http")
 
         self.__player.setSource(QUrl(stream_url))
+        self.__fix_playback()
 
-        # Required to avoid crashing. For some reason if you want to change
-        # the station for the first time, you need to stop and resume playback.
+    def __fix_playback(self) -> None:
+        """Fix playack."""
+        # For some reason if you want to change the station for the first time,
+        # you need to stop and resume playback.
         # If you won't, application would crash.
-        for _ in range(3):
-            self.togglePlayer()
+        self.__player.play()
+        self.__player.stop()
+        self.__player.play()
+        icon = self.style().standardIcon(QStyle.SP_MediaPause)
+        self.ui.playbackToolButton.setIcon(icon)
 
     def togglePlayer(self) -> None:
-        """Toggle playback (play/stop)."""
+        """Toggle playback (play/pause)."""
         pb_state = QMediaPlayer.PlaybackState
         if self.__player.playbackState() == pb_state.PlayingState:
-            self.__player.stop()
+            self.__player.pause()
             icon = self.style().standardIcon(QStyle.SP_MediaPlay)
-        elif self.__player.playbackState() == pb_state.StoppedState:
+        elif self.__player.playbackState() in [
+            pb_state.PausedState,
+            pb_state.StoppedState
+        ]:
             self.__player.play()
-            icon = self.style().standardIcon(QStyle.SP_MediaStop)
+            icon = self.style().standardIcon(QStyle.SP_MediaPause)
         else:
             pass
 
+        self.ui.playbackToolButton.setIcon(icon)
+
+    def stopPlayer(self) -> None:
+        self.__player.stop()
+        icon = self.style().standardIcon(QStyle.SP_MediaPlay)
         self.ui.playbackToolButton.setIcon(icon)

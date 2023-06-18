@@ -148,6 +148,13 @@
         </widget>
        </item>
        <item>
+        <widget class="QToolButton" name="stopToolButton">
+         <property name="text">
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="Line" name="line">
          <property name="lineWidth">
           <number>0</number>
