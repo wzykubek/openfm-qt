@@ -102,28 +102,28 @@ class MainWindow(QMainWindow):
             if e["name"] == group:
                 group_name = e["slug"]
 
-        self.podcasts = self.getData(
+        self.__podcasts = self.getData(
             f"https://open.fm/api/podcasts/category/{group_name}"
         )["podcasts"]["content"]
         self.ui.podcastListWidget.clear()
         self.ui.podcastListWidget.addItems(
-            [e["title"] for e in self.podcasts]
+            [e["title"] for e in self.__podcasts]
         )
 
     def printPodcastEpisodes(self) -> None:
         """Print podcast episodes in stationsListWidget."""
         podcast_name = self.ui.podcastListWidget.selectedItems()[0].text()
         podcast_id = None
-        for e in self.podcasts:
+        for e in self.__podcasts:
             if e["title"] == podcast_name:
                 podcast_id = e["id"]
 
-        episodes = self.getData(
+        self.__podcast_episodes = self.getData(
             f"https://open.fm/api/podcast/{podcast_id}/episodes"
         )
         self.ui.stationsListWidget.clear()
         self.ui.stationsListWidget.addItems(
-            [e["title"] for e in episodes["content"]]
+            [e["title"] for e in self.__podcast_episodes["content"]]
         )
 
     def setVolume(self, volume: int = None) -> None:
@@ -147,11 +147,16 @@ class MainWindow(QMainWindow):
 
     def playRadio(self) -> None:
         """Play station selected by user."""
-        station = self.ui.stationsListWidget.selectedItems()[0].text()
+        selection = self.ui.stationsListWidget.selectedItems()[0].text()
         stream_url = None
         for e in self.__stations["channels"]:
-            if e["name"] == station:
+            if e["name"] == selection:
                 stream_url = f"http://stream.open.fm/{e['id']}"
+
+        if not stream_url:
+            for e in self.__podcast_episodes["content"]:
+                if e["title"] == selection:
+                    stream_url = e["file"].replace("https", "http")
 
         self.__player.setSource(QUrl(stream_url))
 
