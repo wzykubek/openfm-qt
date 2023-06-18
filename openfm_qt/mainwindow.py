@@ -119,7 +119,7 @@ class MainWindow(QMainWindow):
                 podcast_id = e["id"]
 
         self.__podcast_episodes = self.getData(
-            f"https://open.fm/api/podcast/{podcast_id}/episodes"
+            f"https://open.fm/api/podcast/{podcast_id}/episodes?size=999"
         )
         self.ui.stationsListWidget.clear()
         self.ui.stationsListWidget.addItems(
