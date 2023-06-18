@@ -6,19 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
+    <width>650</width>
     <height>500</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>400</width>
+    <width>650</width>
     <height>500</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>400</width>
+    <width>650</width>
     <height>500</height>
    </size>
   </property>
@@ -44,7 +44,7 @@
      <rect>
       <x>9</x>
       <y>9</y>
-      <width>381</width>
+      <width>631</width>
       <height>461</height>
      </rect>
     </property>
@@ -55,13 +55,13 @@
         <widget class="QTabWidget" name="tabWidget">
          <property name="minimumSize">
           <size>
-           <width>150</width>
+           <width>200</width>
            <height>0</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>150</width>
+           <width>200</width>
            <height>16777215</height>
           </size>
          </property>
@@ -77,19 +77,19 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>150</width>
+             <width>200</width>
              <height>400</height>
             </rect>
            </property>
            <property name="minimumSize">
             <size>
-             <width>150</width>
+             <width>200</width>
              <height>400</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>150</width>
+             <width>200</width>
              <height>400</height>
             </size>
            </property>
@@ -104,7 +104,7 @@
             <rect>
              <x>-1</x>
              <y>-1</y>
-             <width>151</width>
+             <width>201</width>
              <height>401</height>
             </rect>
            </property>
@@ -202,7 +202,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>400</width>
+     <width>650</width>
      <height>22</height>
     </rect>
    </property>
