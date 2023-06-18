@@ -11,7 +11,7 @@ from PySide6.QtMultimedia import QMediaPlayer, QAudioOutput
 from ui_form import Ui_MainWindow
 import json
 import requests
-from . import API_URL, DEFAULT_VOLUME
+from . import DEFAULT_VOLUME
 
 
 class MainWindow(QMainWindow):
@@ -27,7 +27,9 @@ class MainWindow(QMainWindow):
         self.ui.volumeToolButton.setIcon(volume_icon)
         self.ui.playbackToolButton.setIcon(playback_icon)
 
-        self.__stations_data = self.getStationsData()
+        self.__stations = self.getData(
+            "https://open.fm/radio/api/v2/ofm/stations_slug.json"
+        )
         self.__player = QMediaPlayer()
         self.__audio = QAudioOutput()
         self.__player.setAudioOutput(self.__audio)
@@ -40,9 +42,9 @@ class MainWindow(QMainWindow):
         self.ui.volumeHorizontalSlider.valueChanged.connect(self.setVolume)
         self.ui.volumeToolButton.clicked.connect(self.toggleMute)
 
-    def getStationsData(self) -> dict:
+    def getData(self, url) -> dict:
         """Get JSON data from API and convert it to dict."""
-        resp = requests.get(API_URL)
+        resp = requests.get(url)
         if resp.status_code not in range(200, 299 + 1):
             error_box = QMessageBox.critical(
                 self,
@@ -57,14 +59,14 @@ class MainWindow(QMainWindow):
     def printGroups(self) -> None:
         """Print groups (categories) in radioGroupsListWidget."""
         self.ui.radioGroupsListWidget.addItems(
-            [e["name"] for e in self.__stations_data["groups"]]
+            [e["name"] for e in self.__stations["groups"]]
         )
 
     def printStations(self) -> None:
         """Print stations (channels) in stationsListWidget."""
         group = self.ui.radioGroupsListWidget.selectedItems()[0].text()
         group_id = None
-        for e in self.__stations_data["groups"]:
+        for e in self.__stations["groups"]:
             if e["name"] == group:
                 group_id = e["id"]
 
@@ -72,7 +74,7 @@ class MainWindow(QMainWindow):
         self.ui.stationsListWidget.addItems(
             [
                 e["name"]
-                for e in self.__stations_data["channels"]
+                for e in self.__stations["channels"]
                 if e["group_id"] == group_id
             ]
         )
@@ -100,7 +102,7 @@ class MainWindow(QMainWindow):
         """Play station selected by user."""
         station = self.ui.stationsListWidget.selectedItems()[0].text()
         stream_url = None
-        for e in self.__stations_data["channels"]:
+        for e in self.__stations["channels"]:
             if e["name"] == station:
                 stream_url = f"http://stream.open.fm/{e['id']}"
 
