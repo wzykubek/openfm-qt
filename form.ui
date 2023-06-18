@@ -99,27 +99,36 @@
           <attribute name="title">
            <string>Podcasty</string>
           </attribute>
-          <widget class="QListWidget" name="podcastGroupsListWidget">
+          <widget class="QWidget" name="verticalLayoutWidget_2">
            <property name="geometry">
             <rect>
-             <x>0</x>
-             <y>0</y>
-             <width>150</width>
-             <height>400</height>
+             <x>-1</x>
+             <y>-1</y>
+             <width>151</width>
+             <height>401</height>
             </rect>
            </property>
-           <property name="minimumSize">
-            <size>
-             <width>150</width>
-             <height>400</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>150</width>
-             <height>400</height>
-            </size>
-           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <item>
+             <widget class="QListWidget" name="podcastGroupsListWidget"/>
+            </item>
+            <item>
+             <widget class="QListWidget" name="podcastListWidget">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>195</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>195</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </widget>
          </widget>
         </widget>

@@ -30,7 +30,7 @@ class MainWindow(QMainWindow):
         self.__stations = self.getData(
             "https://open.fm/radio/api/v2/ofm/stations_slug.json"
         )
-        self.__podcasts = self.getData(
+        self.__podcasts_groups = self.getData(
             "https://open.fm/api/podcasts/categories"
         )
         self.__player = QMediaPlayer()
@@ -41,6 +41,8 @@ class MainWindow(QMainWindow):
         self.printPodcastGroups()
 
         self.ui.radioGroupsListWidget.itemClicked.connect(self.printRadioStations)
+        self.ui.podcastGroupsListWidget.itemClicked.connect(self.printPodcasts)
+        self.ui.podcastListWidget.itemClicked.connect(self.printPodcastEpisodes)
         self.ui.stationsListWidget.itemClicked.connect(self.playRadio)
         self.ui.playbackToolButton.clicked.connect(self.togglePlayer)
         self.ui.volumeHorizontalSlider.valueChanged.connect(self.setVolume)
@@ -69,7 +71,7 @@ class MainWindow(QMainWindow):
     def printPodcastGroups(self) -> None:
         """Print groups (categories) in podcastGroupsListWidget."""
         self.ui.podcastGroupsListWidget.addItems(
-            [e["name"] for e in self.__podcasts]
+            [e["name"] for e in self.__podcasts_groups]
         )
 
     def printRadioStations(self) -> None:
@@ -87,6 +89,38 @@ class MainWindow(QMainWindow):
                 for e in self.__stations["channels"]
                 if e["group_id"] == group_id
             ]
+        )
+
+    def printPodcasts(self) -> None:
+        """Print podcasts in podcastListWidget."""
+        group = self.ui.podcastGroupsListWidget.selectedItems()[0].text()
+        group_name = None
+        for e in self.__podcasts_groups:
+            if e["name"] == group:
+                group_name = e["slug"]
+
+        self.podcasts = self.getData(
+            f"https://open.fm/api/podcasts/category/{group_name}"
+        )["podcasts"]["content"]
+        self.ui.podcastListWidget.clear()
+        self.ui.podcastListWidget.addItems(
+            [e["title"] for e in self.podcasts]
+        )
+
+    def printPodcastEpisodes(self) -> None:
+        """Print podcast episodes in stationsListWidget."""
+        podcast_name = self.ui.podcastListWidget.selectedItems()[0].text()
+        podcast_id = None
+        for e in self.podcasts:
+            if e["title"] == podcast_name:
+                podcast_id = e["id"]
+
+        episodes = self.getData(
+            f"https://open.fm/api/podcast/{podcast_id}/episodes"
+        )
+        self.ui.stationsListWidget.clear()
+        self.ui.stationsListWidget.addItems(
+            [e["title"] for e in episodes["content"]]
         )
 
     def setVolume(self, volume: int = None) -> None:
