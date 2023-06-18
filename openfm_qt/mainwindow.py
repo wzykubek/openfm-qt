@@ -34,9 +34,9 @@ class MainWindow(QMainWindow):
         self.__audio = QAudioOutput()
         self.__player.setAudioOutput(self.__audio)
         self.setVolume(DEFAULT_VOLUME)
-        self.printGroups()
+        self.printRadioGroups()
 
-        self.ui.radioGroupsListWidget.itemClicked.connect(self.printStations)
+        self.ui.radioGroupsListWidget.itemClicked.connect(self.printRadioStations)
         self.ui.stationsListWidget.itemClicked.connect(self.playRadio)
         self.ui.playbackToolButton.clicked.connect(self.togglePlayer)
         self.ui.volumeHorizontalSlider.valueChanged.connect(self.setVolume)
@@ -56,13 +56,13 @@ class MainWindow(QMainWindow):
         else:
             return json.loads(resp.text)
 
-    def printGroups(self) -> None:
+    def printRadioGroups(self) -> None:
         """Print groups (categories) in radioGroupsListWidget."""
         self.ui.radioGroupsListWidget.addItems(
             [e["name"] for e in self.__stations["groups"]]
         )
 
-    def printStations(self) -> None:
+    def printRadioStations(self) -> None:
         """Print stations (channels) in stationsListWidget."""
         group = self.ui.radioGroupsListWidget.selectedItems()[0].text()
         group_id = None
