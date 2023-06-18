@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "openfm-qt"
-version = "0.1.0"
+version = "0.2.0"
 description = "Qt client for Polish internet radio Open FM."
 authors = ["Wiktor Zykubek <wz-git@mailbox.org>"]
 license = "ISC"

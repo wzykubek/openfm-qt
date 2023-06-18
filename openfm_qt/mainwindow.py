@@ -34,7 +34,7 @@ class MainWindow(QMainWindow):
         self.setVolume(DEFAULT_VOLUME)
         self.printGroups()
 
-        self.ui.groupsListWidget.itemClicked.connect(self.printStations)
+        self.ui.radioGroupsListWidget.itemClicked.connect(self.printStations)
         self.ui.stationsListWidget.itemClicked.connect(self.playRadio)
         self.ui.playbackToolButton.clicked.connect(self.togglePlayer)
         self.ui.volumeHorizontalSlider.valueChanged.connect(self.setVolume)
@@ -55,14 +55,14 @@ class MainWindow(QMainWindow):
             return json.loads(resp.text)
 
     def printGroups(self) -> None:
-        """Print groups (categories) in groupsListWidget."""
-        self.ui.groupsListWidget.addItems(
+        """Print groups (categories) in radioGroupsListWidget."""
+        self.ui.radioGroupsListWidget.addItems(
             [e["name"] for e in self.__stations_data["groups"]]
         )
 
     def printStations(self) -> None:
         """Print stations (channels) in stationsListWidget."""
-        group = self.ui.groupsListWidget.selectedItems()[0].text()
+        group = self.ui.radioGroupsListWidget.selectedItems()[0].text()
         group_id = None
         for e in self.__stations_data["groups"]:
             if e["name"] == group:
