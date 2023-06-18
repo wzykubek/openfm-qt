@@ -30,11 +30,15 @@ class MainWindow(QMainWindow):
         self.__stations = self.getData(
             "https://open.fm/radio/api/v2/ofm/stations_slug.json"
         )
+        self.__podcasts = self.getData(
+            "https://open.fm/api/podcasts/categories"
+        )
         self.__player = QMediaPlayer()
         self.__audio = QAudioOutput()
         self.__player.setAudioOutput(self.__audio)
         self.setVolume(DEFAULT_VOLUME)
         self.printRadioGroups()
+        self.printPodcastGroups()
 
         self.ui.radioGroupsListWidget.itemClicked.connect(self.printRadioStations)
         self.ui.stationsListWidget.itemClicked.connect(self.playRadio)
@@ -60,6 +64,12 @@ class MainWindow(QMainWindow):
         """Print groups (categories) in radioGroupsListWidget."""
         self.ui.radioGroupsListWidget.addItems(
             [e["name"] for e in self.__stations["groups"]]
+        )
+
+    def printPodcastGroups(self) -> None:
+        """Print groups (categories) in podcastGroupsListWidget."""
+        self.ui.podcastGroupsListWidget.addItems(
+            [e["name"] for e in self.__podcasts]
         )
 
     def printRadioStations(self) -> None:
