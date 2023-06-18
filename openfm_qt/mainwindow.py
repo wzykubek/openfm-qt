@@ -64,12 +64,14 @@ class MainWindow(QMainWindow):
 
     def printRadioGroups(self) -> None:
         """Print groups (categories) in radioGroupsListWidget."""
+        self.ui.stationsListWidget.clear()
         self.ui.radioGroupsListWidget.addItems(
             [e["name"] for e in self.__stations["groups"]]
         )
 
     def printPodcastGroups(self) -> None:
         """Print groups (categories) in podcastGroupsListWidget."""
+        self.ui.stationsListWidget.clear()
         self.ui.podcastGroupsListWidget.addItems(
             [e["name"] for e in self.__podcasts_groups]
         )
@@ -93,6 +95,7 @@ class MainWindow(QMainWindow):
 
     def printPodcasts(self) -> None:
         """Print podcasts in podcastListWidget."""
+        self.ui.stationsListWidget.clear()
         group = self.ui.podcastGroupsListWidget.selectedItems()[0].text()
         group_name = None
         for e in self.__podcasts_groups:
