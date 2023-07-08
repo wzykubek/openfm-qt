@@ -35,6 +35,8 @@ Thumbs.db
 /.qmake.cache
 /.qmake.stash
 
+ui_form.py
+
 # qtcreator generated files
 *.pro.user*
 CMakeLists.txt.user*
@@ -64,8 +66,11 @@ CMakeLists.txt.user*
 *.Debug
 *.Release
 
-# Python byte code
+# Python
+__pycache__/
 *.pyc
+dist/*
+build/*
 
 # Binaries
 # --------
