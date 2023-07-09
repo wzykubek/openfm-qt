@@ -36,6 +36,7 @@ Thumbs.db
 /.qmake.stash
 
 ui_form.py
+*.pyproject*
 
 # qtcreator generated files
 *.pro.user*
