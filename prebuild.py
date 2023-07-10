@@ -4,7 +4,7 @@ import sys
 import os
 from shutil import which
 
-UI_DIR = "ui"
+UI_DIR = "assets/ui"
 
 
 class UICNotFound(Exception):
