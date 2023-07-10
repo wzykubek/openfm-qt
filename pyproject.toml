@@ -5,10 +5,22 @@ description = "Qt client for Polish internet radio Open FM."
 authors = ["Wiktor Zykubek <wz-git@mailbox.org>"]
 license = "ISC"
 readme = "README.md"
+repository = "https://github.com/wzykubek/openfm-qt"
+keywords = ["music", "player", "radio", "desktop", "gui", "qt6"]
+classifiers = [
+    "Environment :: X11 Applications :: Qt",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: ISC License (ISCL)",
+    "Natural Language :: Polish",
+    "Operating System :: Unix",
+    "Operating System :: Microsoft :: Windows",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Multimedia :: Sound/Audio :: Players"
+]
 packages = [{include = "openfm_qt"}]
 
 [tool.poetry.dependencies]
-python = ">=3.11,<3.12"
+python = "~3.11"
 requests = "^2.31.0"
 PySide6 = "^6.5.1.1"
 
