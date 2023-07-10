@@ -1,4 +1,4 @@
-# This Python file uses the following encoding: utf-8
+# coding=utf-8
 
 from PySide6.QtCore import QUrl
 from PySide6.QtWidgets import QMainWindow, QMessageBox, QStyle
@@ -51,8 +51,7 @@ class MainWindow(QMainWindow):
     def printGroups(self) -> None:
         """Print groups (categories) in groupsListWidget."""
         self.ui.groupsListWidget.addItems(
-            [e["name"] for e in self.__stations_data["groups"]]
-        )
+            [e["name"] for e in self.__stations_data["groups"]])
 
     def printStations(self) -> None:
         """Print stations (channels) in stationsListWidget."""
@@ -63,13 +62,10 @@ class MainWindow(QMainWindow):
                 group_id = e["id"]
 
         self.ui.stationsListWidget.clear()
-        self.ui.stationsListWidget.addItems(
-            [
-                e["name"]
-                for e in self.__stations_data["channels"]
-                if e["group_id"] == group_id
-            ]
-        )
+        self.ui.stationsListWidget.addItems([
+            e["name"] for e in self.__stations_data["channels"]
+            if e["group_id"] == group_id
+        ])
 
     def setVolume(self, volume: int = None) -> None:
         """Set playback volume to given number or slider value."""
