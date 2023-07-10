@@ -24,6 +24,12 @@ python = "~3.11"
 requests = "^2.31.0"
 PySide6 = "^6.5.1.1"
 
+[tool.poetry.group.dev.dependencies]
+yapf = "^0.40.1"
+
+[tool.yapf]
+based_on_style = "pep8"
+
 [tool.poetry.scripts]
 openfm-qt = "openfm_qt.__main__:main"
 
