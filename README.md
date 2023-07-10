@@ -28,5 +28,16 @@ $ pipx install .
 
 > **_NOTE:_** This option won't create desktop entry.
 
+## Development
+Use `poetry` tool to manage project dependencies and virtual environments.
+```bash
+$ poetry install # in root project directory
+```
+
+Run application.
+```bash
+$ poetry run openfm-qt
+```
+
 ## Screenshots
 ![Screenshot Linux](screenshot_linux.png)
