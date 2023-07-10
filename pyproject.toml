@@ -18,6 +18,7 @@ classifiers = [
     "Topic :: Multimedia :: Sound/Audio :: Players"
 ]
 packages = [{include = "openfm_qt"}]
+include = [{path = "openfm_qt/ui_*.py"}]
 
 [tool.poetry.dependencies]
 python = "~3.11"
