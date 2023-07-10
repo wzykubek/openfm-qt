@@ -3,11 +3,6 @@
 from PySide6.QtCore import QUrl
 from PySide6.QtWidgets import QMainWindow, QMessageBox, QStyle
 from PySide6.QtMultimedia import QMediaPlayer, QAudioOutput
-
-# Important:
-# You need to run the following command to generate the ui_form.py file
-#     pyside6-uic form.ui -o ui_form.py, or
-#     pyside2-uic form.ui -o ui_form.py
 import json
 import requests
 from . import API_URL, DEFAULT_VOLUME, Ui_MainWindow
