@@ -33,7 +33,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>icon.ico</normaloff>icon.ico</iconset>
+    <normaloff>../assets/icons/icon.png</normaloff>../assets/icons/icon.png</iconset>
   </property>
   <property name="locale">
    <locale language="Polish" country="Poland"/>
@@ -125,7 +125,7 @@
      <x>0</x>
      <y>0</y>
      <width>350</width>
-     <height>22</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>
