@@ -73,6 +73,7 @@ __pycache__/
 dist/*
 build/*
 ui_*.py
+.ropeproject/
 
 # Binaries
 # --------
