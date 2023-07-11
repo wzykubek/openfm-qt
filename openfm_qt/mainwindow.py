@@ -27,8 +27,10 @@ class MainWindow(QMainWindow):
         self.__player = QMediaPlayer()
         self.__audio = QAudioOutput()
         self.__player.setAudioOutput(self.__audio)
-        self.setVolume(DEFAULT_VOLUME)
         self.printGroups()
+
+        self.setVolume(DEFAULT_VOLUME)
+        self.ui.volumeHorizontalSlider.setValue(DEFAULT_VOLUME)
 
         self.ui.groupsListWidget.itemClicked.connect(self.printStations)
         self.ui.stationsListWidget.itemClicked.connect(self.playRadio)
