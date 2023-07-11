@@ -80,10 +80,11 @@ class MainWindow(QMainWindow):
     def toggleMute(self) -> None:
         """Toggle playback volume between 0 and DEFAULT_VOLUME."""
         if self.ui.volumeHorizontalSlider.value() == 0:
-            self.ui.volumeHorizontalSlider.setValue(DEFAULT_VOLUME)
+            self.ui.volumeHorizontalSlider.setValue(self.previous_volume)
             icon = self.style().standardIcon(QStyle.SP_MediaVolume)
-            self.setVolume(DEFAULT_VOLUME)
+            self.setVolume(self.previous_volume)
         else:
+            self.previous_volume = self.__audio.volume() * 100
             self.ui.volumeHorizontalSlider.setValue(0)
             icon = self.style().standardIcon(QStyle.SP_MediaVolumeMuted)
             self.setVolume(0)
