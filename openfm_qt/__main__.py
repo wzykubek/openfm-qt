@@ -1,8 +1,10 @@
 # coding=utf-8
 
-from PySide6.QtWidgets import QApplication
-from . import MainWindow
 import sys
+
+from PySide6.QtWidgets import QApplication
+
+from . import MainWindow
 
 
 def main():

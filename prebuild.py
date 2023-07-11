@@ -1,9 +1,9 @@
 # coding=utf-8
 
-import sys
-import os
-from shutil import which
 import logging
+import os
+import sys
+from shutil import which
 
 UI_DIR = "assets/ui"
 

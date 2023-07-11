@@ -1,10 +1,12 @@
 # coding=utf-8
 
-from PySide6.QtCore import QUrl
-from PySide6.QtWidgets import QMainWindow, QMessageBox, QStyle
-from PySide6.QtMultimedia import QMediaPlayer, QAudioOutput
 import json
+
 import requests
+from PySide6.QtCore import QUrl
+from PySide6.QtMultimedia import QAudioOutput, QMediaPlayer
+from PySide6.QtWidgets import QMainWindow, QMessageBox, QStyle
+
 from . import API_URL, DEFAULT_VOLUME, Ui_MainWindow
 
 
