@@ -103,6 +103,7 @@ class MainWindow(QMainWindow):
                 stream_url = f"http://stream.open.fm/{e['id']}"
 
         self.__player.setSource(QUrl(stream_url))
+        self.setWindowTitle(f"Open FM - {station}")
 
         # Required to avoid crashing. For some reason if you want to change
         # the station for the first time, you need to stop and resume playback.
