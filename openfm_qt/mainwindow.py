@@ -40,17 +40,20 @@ class MainWindow(QMainWindow):
 
     def getStationsData(self) -> dict:
         """Get JSON data from API and convert it to dict."""
-        resp = requests.get(API_URL)
-        if resp.status_code not in range(200, 299 + 1):
+        try:
+            resp = requests.get(API_URL)
+            if resp.status_code not in range(200, 299 + 1):
+                raise requests.exceptions.ConnectionError()
+            else:
+                return json.loads(resp.text)
+        except requests.exceptions.ConnectionError:
             error_box = QMessageBox.critical(
                 self,
                 "Błąd",
-                f"Błąd połączenia o kodzie: {resp.status_code}",
+                "Brak połączenia z serwerem.",
                 QMessageBox.Cancel,
             )
             error_box.exec()
-        else:
-            return json.loads(resp.text)
 
     def printGroups(self) -> None:
         """Print groups (categories) in groupsListWidget."""
