@@ -20,10 +20,17 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        volume_icon = self.style().standard_icon(QStyle.SP_MediaVolume)
-        playback_icon = self.style().standard_icon(QStyle.SP_MediaPlay)
-        self.ui.volumeToolButton.icon = volume_icon
-        self.ui.playbackToolButton.icon = playback_icon
+
+        class __icons(object):
+            volume = self.style().standard_icon(QStyle.SP_MediaVolume)
+            muted = self.style().standard_icon(QStyle.SP_MediaVolumeMuted)
+            play = self.style().standard_icon(QStyle.SP_MediaPlay)
+            stop = self.style().standard_icon(QStyle.SP_MediaStop)
+
+        self.__icons = __icons
+
+        self.ui.volumeToolButton.icon = self.__icons.volume
+        self.ui.playbackToolButton.icon = self.__icons.play
 
         self.__stations_data = self.get_stations_data()
         self.__player = QMediaPlayer()
@@ -86,12 +93,12 @@ class MainWindow(QMainWindow):
         """Toggle playback volume between 0 and DEFAULT_VOLUME."""
         if self.ui.volumeHorizontalSlider.value == 0:
             self.ui.volumeHorizontalSlider.value = self.previous_volume
-            icon = self.style().standard_icon(QStyle.SP_MediaVolume)
+            icon = self.__icons.volume
             self.set_volume(self.previous_volume)
         else:
             self.previous_volume = self.__audio.volume * 100
             self.ui.volumeHorizontalSlider.value = 0
-            icon = self.style().standard_icon(QStyle.SP_MediaVolumeMuted)
+            icon = self.__icons.muted
             self.set_volume(0)
 
         self.ui.volumeToolButton.icon = icon
@@ -118,10 +125,10 @@ class MainWindow(QMainWindow):
         pb_state = QMediaPlayer.PlaybackState
         if self.__player.playback_state == pb_state.PlayingState:
             self.__player.stop()
-            icon = self.style().standard_icon(QStyle.SP_MediaPlay)
+            icon = self.__icons.play
         elif self.__player.playback_state == pb_state.StoppedState:
             self.__player.play()
-            icon = self.style().standard_icon(QStyle.SP_MediaStop)
+            icon = self.__icons.stop
         else:
             pass
 
