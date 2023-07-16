@@ -9,6 +9,8 @@ from PySide6.QtWidgets import QMainWindow, QMessageBox, QStyle
 
 from . import API_URL, DEFAULT_VOLUME, Ui_MainWindow
 
+from __feature__ import snake_case  # isort: skip
+
 
 class MainWindow(QMainWindow):
     """MainWindow Class."""
@@ -18,19 +20,19 @@ class MainWindow(QMainWindow):
         super().__init__(parent)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        volume_icon = self.style().standardIcon(QStyle.SP_MediaVolume)
-        playback_icon = self.style().standardIcon(QStyle.SP_MediaPlay)
-        self.ui.volumeToolButton.setIcon(volume_icon)
-        self.ui.playbackToolButton.setIcon(playback_icon)
+        volume_icon = self.style().standard_icon(QStyle.SP_MediaVolume)
+        playback_icon = self.style().standard_icon(QStyle.SP_MediaPlay)
+        self.ui.volumeToolButton.icon = volume_icon
+        self.ui.playbackToolButton.icon = playback_icon
 
         self.__stations_data = self.getStationsData()
         self.__player = QMediaPlayer()
         self.__audio = QAudioOutput()
-        self.__player.setAudioOutput(self.__audio)
+        self.__player.audio_output = self.__audio
         self.printGroups()
 
         self.setVolume(DEFAULT_VOLUME)
-        self.ui.volumeHorizontalSlider.setValue(DEFAULT_VOLUME)
+        self.ui.volumeHorizontalSlider.value = DEFAULT_VOLUME
 
         self.ui.groupsListWidget.itemClicked.connect(self.printStations)
         self.ui.stationsListWidget.itemClicked.connect(self.playRadio)
@@ -57,19 +59,19 @@ class MainWindow(QMainWindow):
 
     def printGroups(self) -> None:
         """Print groups (categories) in groupsListWidget."""
-        self.ui.groupsListWidget.addItems(
+        self.ui.groupsListWidget.add_items(
             [e["name"] for e in self.__stations_data["groups"]])
 
     def printStations(self) -> None:
         """Print stations (channels) in stationsListWidget."""
-        group = self.ui.groupsListWidget.selectedItems()[0].text()
+        group = self.ui.groupsListWidget.selected_items()[0].text()
         group_id = None
         for e in self.__stations_data["groups"]:
             if e["name"] == group:
                 group_id = e["id"]
 
         self.ui.stationsListWidget.clear()
-        self.ui.stationsListWidget.addItems([
+        self.ui.stationsListWidget.add_items([
             e["name"] for e in self.__stations_data["channels"]
             if e["group_id"] == group_id
         ])
@@ -77,33 +79,33 @@ class MainWindow(QMainWindow):
     def setVolume(self, volume: int = None) -> None:
         """Set playback volume to given number or slider value."""
         if not volume:
-            volume = self.ui.volumeHorizontalSlider.value()
-        self.__audio.setVolume(volume / 100)
+            volume = self.ui.volumeHorizontalSlider.value
+        self.__audio.volume = volume / 100
 
     def toggleMute(self) -> None:
         """Toggle playback volume between 0 and DEFAULT_VOLUME."""
-        if self.ui.volumeHorizontalSlider.value() == 0:
-            self.ui.volumeHorizontalSlider.setValue(self.previous_volume)
-            icon = self.style().standardIcon(QStyle.SP_MediaVolume)
+        if self.ui.volumeHorizontalSlider.value == 0:
+            self.ui.volumeHorizontalSlider.value = self.previous_volume
+            icon = self.style().standard_icon(QStyle.SP_MediaVolume)
             self.setVolume(self.previous_volume)
         else:
-            self.previous_volume = self.__audio.volume() * 100
-            self.ui.volumeHorizontalSlider.setValue(0)
-            icon = self.style().standardIcon(QStyle.SP_MediaVolumeMuted)
+            self.previous_volume = self.__audio.volume * 100
+            self.ui.volumeHorizontalSlider.value = 0
+            icon = self.style().standard_icon(QStyle.SP_MediaVolumeMuted)
             self.setVolume(0)
 
-        self.ui.volumeToolButton.setIcon(icon)
+        self.ui.volumeToolButton.icon = icon
 
     def playRadio(self) -> None:
         """Play station selected by user."""
-        station = self.ui.stationsListWidget.selectedItems()[0].text()
+        station = self.ui.stationsListWidget.selected_items()[0].text()
         stream_url = None
         for e in self.__stations_data["channels"]:
             if e["name"] == station:
                 stream_url = f"http://stream.open.fm/{e['id']}"
 
-        self.__player.setSource(QUrl(stream_url))
-        self.setWindowTitle(f"Open FM - {station}")
+        self.__player.source = QUrl(stream_url)
+        self.window_title = f"Open FM - {station}"
 
         # Required to avoid crashing. For some reason if you want to change
         # the station for the first time, you need to stop and resume playback.
@@ -114,13 +116,13 @@ class MainWindow(QMainWindow):
     def togglePlayer(self) -> None:
         """Toggle playback (play/stop)."""
         pb_state = QMediaPlayer.PlaybackState
-        if self.__player.playbackState() == pb_state.PlayingState:
+        if self.__player.playback_state == pb_state.PlayingState:
             self.__player.stop()
-            icon = self.style().standardIcon(QStyle.SP_MediaPlay)
-        elif self.__player.playbackState() == pb_state.StoppedState:
+            icon = self.style().standard_icon(QStyle.SP_MediaPlay)
+        elif self.__player.playback_state == pb_state.StoppedState:
             self.__player.play()
-            icon = self.style().standardIcon(QStyle.SP_MediaStop)
+            icon = self.style().standard_icon(QStyle.SP_MediaStop)
         else:
             pass
 
-        self.ui.playbackToolButton.setIcon(icon)
+        self.ui.playbackToolButton.icon = icon
