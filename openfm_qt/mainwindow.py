@@ -15,9 +15,9 @@ from __feature__ import snake_case, true_property  # isort: skip
 class MainWindow(QMainWindow):
     """MainWindow Class."""
 
-    def __init__(self, parent=None):
+    def __init__(self):
         """Initialize UI, audio player and handlers."""
-        super().__init__(parent)
+        super().__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         volume_icon = self.style().standard_icon(QStyle.SP_MediaVolume)
