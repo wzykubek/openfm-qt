@@ -9,7 +9,7 @@ from PySide6.QtWidgets import QMainWindow, QMessageBox, QStyle
 
 from . import API_URL, DEFAULT_VOLUME, Ui_MainWindow
 
-from __feature__ import snake_case  # isort: skip
+from __feature__ import snake_case, true_property  # isort: skip
 
 
 class MainWindow(QMainWindow):
